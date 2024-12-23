@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS Search Engine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .results {
+            margin-top: 30px;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .result {
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+        }
+        .result h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        .result p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .snippet ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>CAS Search Engine</h1>
+    <form method="POST" action="/search">
+        <input type="text" name="query" placeholder="Suchbegriff eintragen...">
+        <button type="submit">Suchen</button>
+    </form>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    {% if results %}
+        <div class="results">
+            <h2>Resultate für "{{ query }}":</h2>
+            {% for result in results %}
+                <div class="result">
+                    <h3>{{ result.file_name }} (Seite {{ result.page }})</h3>
+                    <p>Score: {{ result.score }}</p>
+                    <p>Dozent: {{ result.author }}, Datum (meta): {{ result.create_date }}</p>
+                    <div class="snippet">
+                        <strong>Snippets:</strong>
+                        <ul>
+                            <li>{{ result.snippet|safe }}</li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
