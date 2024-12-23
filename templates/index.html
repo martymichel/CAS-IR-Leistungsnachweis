@@ -81,6 +81,7 @@
             {% for result in results %}
                 <div class="result">
                     <h3>{{ result.file_name }} (Seite {{ result.page }})</h3>
+                    <p>Pfad: {{ result.path }}</p>
                     <p>Score: {{ result.score }}</p>
                     <p>Dozent: {{ result.author }}, Datum (meta): {{ result.create_date }}</p>
                     <div class="snippet">

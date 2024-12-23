@@ -17,6 +17,7 @@ class WhooshSearchEngine:
             for result in results:
                 output.append({
                     "file_name": result["file_name"],
+                    "path": result["path"].replace('/', '\\'),
                     "page": result["page"],
                     "score": round(result.score, 2),
                     "snippet": result.highlights("content"),
@@ -25,7 +26,7 @@ class WhooshSearchEngine:
                 })
             return output
 
-index_dir = r"P:\\PY\\CAS IR Leistungsnachweis\\whoosh_index"
+index_dir = r"C:\Users\s.mueller\GitHub\CAS-IR-Leistungsnachweis\whoosh_index"
 search_engine = WhooshSearchEngine(index_dir)
 
 @app.route("/")
