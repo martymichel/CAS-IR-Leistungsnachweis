@@ -1,17 +1,17 @@
 import os
-import traceback
 import time
 from datetime import datetime
-from multiprocessing import Pool, cpu_count
-from tqdm import tqdm
-from PyPDF2 import PdfReader
-from whoosh.fields import Schema, TEXT, NUMERIC
-from whoosh.index import create_in
-import tkinter as tk
-from tkinter import filedialog
-import pptx
-from markdown2 import markdown_path
-from nbconvert import HTMLExporter
+import traceback # allows error reporting
+from multiprocessing import Pool, cpu_count # allows parallelized computing
+from tqdm import tqdm # allows visualizing state of a process
+from whoosh.fields import Schema, TEXT, NUMERIC # needed to create whoosh index
+from whoosh.index import create_in # needed to create whoosh index
+import tkinter as tk # needed for GUI-interface to select files
+from tkinter import filedialog # needed for GUI-interface to select files
+from PyPDF2 import PdfReader # needed to extract pdf data
+import pptx # needed to process ppt-files
+from markdown2 import markdown_path # needed to process markdown-files
+from nbconvert import HTMLExporter # needed to process Jupyter Notebook files
 
 # Initialize variables
 unsupported_files = []

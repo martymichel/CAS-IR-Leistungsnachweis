@@ -3,13 +3,27 @@
 
 ## Table of Contents
 
-1. **Indexing Data**
-2. **Testing Indexed Data (Optional)**
-3. **Launching the Search Engine in the Browser**
+1. **Installation**
+2. **Indexing Data**
+3. **Testing Indexed Data (Optional)**
+4. **Launching the Search Engine in the Browser**
 
 ---
 
-## 1. Indexing Data
+## 1. Installation
+Make sure the following libraries are installed:
+- pip install traceback
+- pip install multiprocessing
+- pip install tqdm
+- pip install PyPDF2
+- pip install whoosh
+- pip install whoosh-reloaded
+- pip install tkinter
+- pip install import
+- pip install markdown2
+- pip install nbconvert
+
+## 2. Indexing Data
 
 The script `directory_indexer.py` is used to index files from various directories and store them in a Whoosh-compatible index.
 
@@ -44,7 +58,7 @@ The script `directory_indexer.py` is used to index files from various directorie
 
 ---
 
-## 2. Testing Indexed Data (Optional)
+## 3. Testing Indexed Data (Optional)
 
 The script `test_whoosh.py` verifies the content of the created index.
 
@@ -61,7 +75,7 @@ The script `test_whoosh.py` verifies the content of the created index.
 
 ---
 
-## 3. Launching the Search Engine in the Browser
+## 4. Launching the Search Engine in the Browser
 
 The script `whoosh_search.py` starts a Flask web application that enables searching within the index.
 
@@ -74,14 +88,14 @@ The script `whoosh_search.py` starts a Flask web application that enables search
 2. **Open the browser**:
    - Navigate to `http://127.0.0.1:5000`.
 3. **Submit search queries**:
-   - Enter the search term in the search field.
+   - Enter the search term(s) in the search field.
    - Results will be displayed in the browser.
 
 ### Notes:
 
 - Ensure the index is created and the path in the script is correct:
   ```python
-  index_dir = r"P:\PY\CAS IR Leistungsnachweis\whoosh_index"
+  index_dir = r"YOUR_INDEX_PATH"
   ```
 - Invalid or incomplete search queries are handled, and appropriate error messages will be displayed.
 
