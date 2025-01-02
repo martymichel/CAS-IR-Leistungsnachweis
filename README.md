@@ -1,31 +1,31 @@
 
 # README: CAS Search Engine
 
-## Inhaltsverzeichnis
+## Table of Contents
 
-1. **Daten indexieren**
-2. **Indexdaten testen (optional)**
-3. **Suchmaschine im Browser starten**
+1. **Indexing Data**
+2. **Testing Indexed Data (Optional)**
+3. **Launching the Search Engine in the Browser**
 
 ---
 
-## 1. Daten indexieren
+## 1. Indexing Data
 
-Das Skript `directory_indexer.py` wird verwendet, um Dateien aus verschiedenen Verzeichnissen zu indexieren und in einem Whoosh-kompatiblen Index zu speichern.
+The script `directory_indexer.py` is used to index files from various directories and store them in a Whoosh-compatible index.
 
-### Schritte:
+### Steps:
 
-1. **Skript starten**:
+1. **Run the script**:
    ```bash
    python directory_indexer.py
    ```
-2. **Ordner auswählen**:
-   - Es erscheint ein Dialogfenster, in dem mehrere Verzeichnisse ausgewählt werden können.
-   - Nach der Auswahl eines Verzeichnisses können Sie weitere hinzufügen oder fortfahren.
-3. **Speicherort für den Index festlegen**:
-   - Wählen Sie ein Zielverzeichnis, in dem der Index gespeichert wird.
+2. **Select folders**:
+   - A dialog window will appear, allowing you to select multiple directories.
+   - After selecting one directory, you can add more or proceed.
+3. **Set the index storage location**:
+   - Choose a target directory where the index will be stored.
 
-### Unterstützte Dateitypen:
+### Supported File Types:
 
 - `.pdf`
 - `.txt`
@@ -37,56 +37,56 @@ Das Skript `directory_indexer.py` wird verwendet, um Dateien aus verschiedenen V
 - `.qmd`
 - `.pptx`
 
-### Fehlerbehandlung:
+### Error Handling:
 
-- Nicht unterstützte oder fehlerhafte Dateien werden protokolliert.
-- Eine Protokolldatei `error_log.txt` wird im Indexspeicherort erstellt.
+- Unsupported or faulty files will be logged.
+- An error log file, `error_log.txt`, will be created in the index storage location.
 
 ---
 
-## 2. Indexdaten testen (optional)
+## 2. Testing Indexed Data (Optional)
 
-Das Skript `test_whoosh.py` überprüft den Inhalt des erstellten Index.
+The script `test_whoosh.py` verifies the content of the created index.
 
-### Schritte:
+### Steps:
 
-1. **Skript starten**:
+1. **Run the script**:
    ```bash
    python test_whoosh.py
    ```
-2. **Pfad zum Index eingeben**:
-   - Geben Sie den Pfad zum erstellten Index ein.
-3. **Ausgabe analysieren**:
-   - Zeigt eine Übersicht der gespeicherten Felder und eine Vorschau der ersten fünf Dokumente im Index.
+2. **Enter the index path**:
+   - Provide the path to the created index.
+3. **Analyze the output**:
+   - Displays an overview of stored fields and a preview of the first five documents in the index.
 
 ---
 
-## 3. Suchmaschine im Browser starten
+## 3. Launching the Search Engine in the Browser
 
-Das Skript `whoosh_search.py` startet eine Flask-Webanwendung, die die Suche im Index ermöglicht.
+The script `whoosh_search.py` starts a Flask web application that enables searching within the index.
 
-### Schritte:
+### Steps:
 
-1. **Skript starten**:
+1. **Run the script**:
    ```bash
    python whoosh_search.py
    ```
-2. **Browser öffnen**:
-   - Navigieren Sie zu `http://127.0.0.1:5000`.
-3. **Suchanfragen stellen**:
-   - Geben Sie den Suchbegriff in das Suchfeld ein.
-   - Ergebnisse werden im Browser angezeigt.
+2. **Open the browser**:
+   - Navigate to `http://127.0.0.1:5000`.
+3. **Submit search queries**:
+   - Enter the search term in the search field.
+   - Results will be displayed in the browser.
 
-### Hinweise:
+### Notes:
 
-- Stellen Sie sicher, dass der Index erstellt wurde und der Pfad im Skript korrekt ist:
+- Ensure the index is created and the path in the script is correct:
   ```python
   index_dir = r"P:\PY\CAS IR Leistungsnachweis\whoosh_index"
   ```
-- Fehlerhafte oder unvollständige Suchanfragen werden behandelt, und entsprechende Fehlermeldungen werden angezeigt.
+- Invalid or incomplete search queries are handled, and appropriate error messages will be displayed.
 
 ---
 
-## Kontakt
+## Contact
 
-Bei Problemen oder Fragen wenden Sie sich an den Entwickler. Viel Erfolg bei der Nutzung der CAS Search Engine!
+If you encounter any issues or have questions, please contact the developer. Good luck using the CAS Search Engine!
