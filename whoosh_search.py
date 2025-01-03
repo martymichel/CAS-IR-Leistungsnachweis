@@ -32,7 +32,7 @@ class WhooshSearchEngine:
             return output
 
 # declaration of index path - make shure the correct path is configured
-index_dir = r"C:\Users\s.mueller\GitHub\CAS-IR-Leistungsnachweis\whoosh_index"
+index_dir = r".\whoosh_index"
 search_engine = WhooshSearchEngine(index_dir)
 
 # define .html template for web app
