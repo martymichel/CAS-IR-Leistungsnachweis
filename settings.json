@@ -1,1 +1,1 @@
-{"proximity_weight": 1.0, "position_weight": 0.0, "idf_weight": 0.0}
+{"proximity_weight": 0.2, "position_weight": 0.5, "idf_weight": 0.3}
