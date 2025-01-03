@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>CAS Search Engine</h1>
+    <div class="header">
+        <a href="/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ZHAW_Logo.svg/206px-ZHAW_Logo.svg.png" alt="ZHAW Logo" class="logo"></a>
+        <h1>CAS Search Engine</h1>
+    </div>
     <form method="POST" action="/search">
         <input type="text" name="query" placeholder="Suchbegriff(e) eintragen...">
         <button type="submit">Suchen</button>
@@ -64,6 +67,19 @@
                     </div>
                 </div>
             {% endfor %}
+                        <div class="results-per-page">
+                <form method="POST" action="/search" class="inline-form">
+                    <input type="hidden" name="query" value="{{ query }}">
+                    <label for="results_per_page">Anzahl Resultate:</label>
+                    <select name="results_per_page" id="results_per_page" onchange="this.form.submit()">
+                        {% for count in [5, 10, 20, 50] %}
+                            <option value="{{ count }}" {% if request.form.get('results_per_page')|int == count %}selected{% endif %}>
+                                {{ count }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
             <div class="metrics">
                 <h3>Suchmetriken</h3>
                 <table>

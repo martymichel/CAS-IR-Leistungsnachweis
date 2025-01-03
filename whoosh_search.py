@@ -97,6 +97,20 @@ class WhooshSearchEngine:
         self.settings = new_settings.copy()
         save_settings(self.settings)
 
+    def get_top_results(self, results, top_k):
+        # Track seen documents to ensure we get top_k unique documents
+        seen_docs = set()
+        top_results = []
+        
+        for result in results:
+            file_name = result["file_name"]
+            if file_name not in seen_docs:
+                seen_docs.add(file_name)
+                top_results.append(result)
+                if len(top_results) >= top_k:
+                    break
+        return top_results
+
     def search(self, query, top_k=10):
         scorer = CustomScoring(self.settings)
         
@@ -129,7 +143,8 @@ class WhooshSearchEngine:
                 query = f'"{query}"'
                 
             myquery = parser.parse(query)
-            results = searcher.search(myquery, limit=top_k, terms=True)
+            # Get more results initially to handle grouping
+            results = searcher.search(myquery, limit=top_k * 3, terms=True)
             
             # Get total documents in index
             metrics["total_docs"] = searcher.doc_count_all()
@@ -150,7 +165,9 @@ class WhooshSearchEngine:
                         "create_date": result.get("create_date", "Unknown")
                     }
                 else:
-                    grouped_results[file_name]["pages"].append(result["page"])
+                    # Only append page if not already present
+                    if result["page"] not in grouped_results[file_name]["pages"]:
+                        grouped_results[file_name]["pages"].append(result["page"])
                     # Update snippet and score only if this result has a higher score
                     if result.score > grouped_results[file_name]["score"]:
                         grouped_results[file_name]["score"] = result.score
@@ -161,11 +178,16 @@ class WhooshSearchEngine:
             for doc in grouped_results.values():
                 doc["pages"].sort()
                 doc["page"] = ", ".join(map(str, doc["pages"]))
+                # Remove extra whitespace from snippets
+                doc["snippet"] = ' '.join(doc["snippet"].split())
                 doc["score"] = round(doc["score"], 3)
                 output.append(doc)
             
             # Sort by score descending
             output.sort(key=lambda x: x["score"], reverse=True)
+            
+            # Get top_k unique documents
+            output = output[:top_k]
             
             # Calculate search duration
             metrics["duration"] = round((time.time() - metrics["start_time"]) * 1000, 2)  # in milliseconds
@@ -183,12 +205,14 @@ def home():
 @app.route("/search", methods=["POST"])
 def search():
     query = request.form.get("query")
+    results_per_page = int(request.form.get("results_per_page", 10))
+    
     if not query or not query.strip():
         return render_template("index.html", error="Bitte Suchbegriff eintragen.", settings=search_engine.settings)
 
     # Trim whitespace
     query = query.strip()
-    results, metrics = search_engine.search(query)
+    results, metrics = search_engine.search(query, top_k=results_per_page)
     if not results:
         return render_template("index.html", error="Keine Ergebnisse gefunden.", settings=search_engine.settings)
 
