@@ -241,3 +241,28 @@ if __name__ == "__main__":
                     print(file)
             print("Error logs saved to error_log.txt in the index directory.")
             print("Processing time:", round(time.time()-t,2), "s")
+
+'''
+###
+Output by indexing FULL DATABASE of five CAS courses
+Running on my private computer (Michel)
+###
+PS P:\PY\CAS IR Leistungsnachweis> & C:/Python312/python.exe "p:/PY/CAS IR Leistungsnachweis/directory_indexer.py"
+Processing 3776 files using 14 workers...
+Indexing Files:   9%|████████▌                                                                                  | 356/3776 [00:16<00:56, 60.90it/s]unknown widths : 
+[0, IndirectObject(23, 0, 2249369934048)]
+unknown widths : 
+[0, IndirectObject(25, 0, 2249369934048)]
+Indexing Files:  11%|█████████▋                                                                                 | 403/3776 [00:17<00:55, 60.95it/s] impossible to decode XFormObject /Im70
+Indexing Files:  53%|███████████████████████████████████████████████▌                                          | 1995/3776 [00:55<01:41, 17.51it/s]Multiple definitions in dictionary at byte 0x22ec6 for key /Author
+Multiple definitions in dictionary at byte 0x22ece for key /Title
+Indexing Files: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 3776/3776 [02:45<00:00, 22.78it/s]
+Indexing complete.
+Index saved to: P:/PY/CAS IR Leistungsnachweis/whoosh_index
+Unsupported files:
+G:/OneDrive - Flex/4.1_CAS Datenanalyse\code.R
+...
+G:/OneDrive - Flex/4.1_CAS Datenanalyse\datasciencebook_ocred.pdf
+Error logs saved to error_log.txt in the index directory.
+Processing time: 390.35 s 
+'''
