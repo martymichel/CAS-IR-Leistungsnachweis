@@ -19,9 +19,9 @@ def load_settings():
             return json.load(f)
     # Default settings
     return {
-        "proximity_weight": 1.0,
-        "position_weight": 0.8,
-        "idf_weight": 0.6
+        "proximity_weight": 2.5,
+        "position_weight": 1.5,
+        "idf_weight": 1.2
     }
 
 def save_settings(settings):
@@ -41,20 +41,24 @@ class CustomScoring(FunctionWeighting):
         # Get IDF score
         idf = searcher.idf(fieldname, text)
         
+        # POSITION SCORING
         # Get positions and calculate position score
         positions = matcher.value_as("positions")
         if positions:
             # Normalize position score based on document length
             doc_length = searcher.doc_field_length(matcher.id(), fieldname)
+            # Rate position based on how close it is to the beginning of the document
             position_score = 1.0 - (min(positions) / doc_length)
         else:
             position_score = 0.0
 
+        # PROXIMITY SCORING
         # Calculate proximity score based on term positions
         if positions and len(positions) > 1:
             # Calculate average distance between consecutive positions
             distances = [positions[i+1] - positions[i] for i in range(len(positions)-1)]
             avg_distance = sum(distances) / len(distances)
+            # Rate proximity based on average distance between terms
             proximity_score = 1.0 / (1.0 + avg_distance)
         else:
             proximity_score = 0.0
@@ -69,11 +73,13 @@ class CustomScoring(FunctionWeighting):
 
         return weighted_score
 
+    # Dynamic max quality calculation, based on the maximum values of each scoring component
     def max_quality(self, searcher, fieldname):
         terms = searcher.field_terms(fieldname)
         if not terms:
             return 0.0
 
+        # Get maximum values for each scoring component
         max_term_freq = max(terms.values(), default=1)
         max_idf = max(searcher.idf(fieldname, term) for term in terms)
         max_position_score = 1.0

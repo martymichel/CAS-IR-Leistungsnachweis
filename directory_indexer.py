@@ -1,11 +1,13 @@
-import os
-import time
-from datetime import datetime
+import os # needed to interact with the operating system
+import time # needed to measure processing time
+from datetime import datetime # needed to extract metadata
 import traceback # allows error reporting
 from multiprocessing import Pool, cpu_count # allows parallelized computing
 from tqdm import tqdm # allows visualizing state of a process
+from stopwords import english_stopwords, german_stopwords # needed to remove stopwords
 from whoosh.fields import Schema, TEXT, NUMERIC # needed to create whoosh index
 from whoosh.index import create_in # needed to create whoosh index
+from whoosh.analysis import StemmingAnalyzer, StopFilter # needed to create whoosh index
 import tkinter as tk # needed for GUI-interface to select files
 from tkinter import filedialog # needed for GUI-interface to select files
 from PyPDF2 import PdfReader # needed to extract pdf data
@@ -163,14 +165,21 @@ def process_files_parallel(folders_to_index, index_dir):
     num_workers = max(1, cpu_count() - 2)
     print(f"Processing {len(files_to_process)} files using {num_workers} workers...")
 
-    # Define schema for whoosh index, can be extended, if more metadata fields needed
+    ### WHOOSH SYNTAX ### https://whoosh.readthedocs.io/en/latest/index.html
+    # combine stopwords for both languages
+    combined_stopwords = set(english_stopwords + german_stopwords)
+
+    # define analyzer with stemming and stopwords
+    analyzer = StemmingAnalyzer() | StopFilter(stoplist=combined_stopwords)
+
+    # Erstelle das Schema mit dem neuen Analyzer
     schema = Schema(
         file_name=TEXT(stored=True),
         path=TEXT(stored=True),
         author=TEXT(stored=True),
         create_date=TEXT(stored=True),
         page=NUMERIC(stored=True),
-        content=TEXT(stored=True)
+        content=TEXT(stored=True, analyzer=analyzer)
     )
 
     # Create Whoosh index
@@ -243,26 +252,32 @@ if __name__ == "__main__":
             print("Processing time:", round(time.time()-t,2), "s")
 
 '''
-###
 Output by indexing FULL DATABASE of five CAS courses
 Running on my private computer (Michel)
-###
+
+*** Without stamming and stopwords ***
 PS P:\PY\CAS IR Leistungsnachweis> & C:/Python312/python.exe "p:/PY/CAS IR Leistungsnachweis/directory_indexer.py"
 Processing 3776 files using 14 workers...
-Indexing Files:   9%|████████▌                                                                                  | 356/3776 [00:16<00:56, 60.90it/s]unknown widths : 
-[0, IndirectObject(23, 0, 2249369934048)]
-unknown widths : 
-[0, IndirectObject(25, 0, 2249369934048)]
-Indexing Files:  11%|█████████▋                                                                                 | 403/3776 [00:17<00:55, 60.95it/s] impossible to decode XFormObject /Im70
-Indexing Files:  53%|███████████████████████████████████████████████▌                                          | 1995/3776 [00:55<01:41, 17.51it/s]Multiple definitions in dictionary at byte 0x22ec6 for key /Author
-Multiple definitions in dictionary at byte 0x22ece for key /Title
-Indexing Files: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 3776/3776 [02:45<00:00, 22.78it/s]
+Indexing Files: 100%|█████████████████████████████████████████| 3776/3776 [02:45<00:00, 22.78it/s]
 Indexing complete.
 Index saved to: P:/PY/CAS IR Leistungsnachweis/whoosh_index
 Unsupported files:
 G:/OneDrive - Flex/4.1_CAS Datenanalyse\code.R
-...
-G:/OneDrive - Flex/4.1_CAS Datenanalyse\datasciencebook_ocred.pdf
+and many more... (PDF which only contain images)
 Error logs saved to error_log.txt in the index directory.
-Processing time: 390.35 s 
+Processing time: 390.35 s
+Index size: 618 MB
+
+*** With stamming and stopwords 04.01.25 ***
+PS P:\PY\CAS IR Leistungsnachweis\directory_indexer.py:254: SyntaxWarning: invalid escape sequence '\P'
+Processing 3776 files using 14 workers...
+Indexing Files: 100%|█████████████████████████████████████████| 3776/3776 [02:41<00:00, 23.38it/s]
+Indexing complete.
+Index saved to: P:/PY/CAS IR Leistungsnachweis/whoosh_index
+Unsupported files:
+G:/OneDrive - Flex/4.1_CAS Datenanalyse\code.R
+and many more... (PDF which only contain images)
+Error logs saved to error_log.txt in the index directory.
+Processing time: 421.9 s
+Index size: 601 MB
 '''
