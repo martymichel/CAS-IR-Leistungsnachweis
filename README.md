@@ -52,6 +52,8 @@ Make sure the following libraries are installed:
 
 -   pip install whoosh-reloaded
 
+-   pip install stopwords
+
 -   pip install tkinter
 
 -   pip install import
@@ -59,6 +61,8 @@ Make sure the following libraries are installed:
 -   pip install markdown2
 
 -   pip install nbconvert
+
+-   pip install flask
 
 ------------------------------------------------------------------------
 

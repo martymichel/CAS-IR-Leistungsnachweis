@@ -172,14 +172,14 @@ def process_files_parallel(folders_to_index, index_dir):
     # define analyzer with stemming and stopwords
     analyzer = StemmingAnalyzer() | StopFilter(stoplist=combined_stopwords)
 
-    # Erstelle das Schema mit dem neuen Analyzer
+    # Define scheme for Whoosh index, can be extended with more metadata fields if needed
     schema = Schema(
         file_name=TEXT(stored=True),
         path=TEXT(stored=True),
         author=TEXT(stored=True),
         create_date=TEXT(stored=True),
         page=NUMERIC(stored=True),
-        content=TEXT(stored=True, analyzer=analyzer)
+        content=TEXT(stored=True, analyzer=analyzer) # text content gets stemmed and stopwords removed by whoosh analyzer
     )
 
     # Create Whoosh index
@@ -280,4 +280,14 @@ and many more... (PDF which only contain images)
 Error logs saved to error_log.txt in the index directory.
 Processing time: 421.9 s
 Index size: 601 MB
+
+*** index created 04.01.25 ***
+Processing 1071 files using 18 workers...
+Indexing Files: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1071/1071 [06:44<00:00,  2.65it/s]
+Indexing complete.
+Index saved to: C:/Users/s.mueller/GitHub/CAS-IR-Leistungsnachweis/whoosh_index
+Unsupported files: ...
+Error logs saved to error_log.txt in the index directory.
+Processing time: 612.43 s
+Index size: 481 MB
 '''

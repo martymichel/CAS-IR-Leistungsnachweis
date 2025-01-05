@@ -204,10 +204,12 @@ class WhooshSearchEngine:
 index_dir = r".\whoosh_index"
 search_engine = WhooshSearchEngine(index_dir)
 
+# definition of template file for rendering output
 @app.route("/")
 def home():
     return render_template("index.html", settings=search_engine.settings)
 
+# function to get search query and render results or error messages
 @app.route("/search", methods=["POST"])
 def search():
     query = request.form.get("query")
@@ -224,6 +226,7 @@ def search():
 
     return render_template("index.html", results=results, query=query, settings=search_engine.settings, metrics=metrics)
 
+# function to update scoring options in web app
 @app.route("/update_settings", methods=["POST"])
 def update_settings():
     try:
