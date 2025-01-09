@@ -1,1 +1,0 @@
-whoosh_index/* filter=lfs diff=lfs merge=lfs -text

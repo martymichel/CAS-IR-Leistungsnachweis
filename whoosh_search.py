@@ -201,7 +201,7 @@ class WhooshSearchEngine:
             return output, metrics
 
 # declaration of index path
-index_dir = r".\whoosh_index"
+index_dir = r".\whoosh_index" # Path to the index directory **change this to your index directory**
 search_engine = WhooshSearchEngine(index_dir)
 
 # definition of template file for rendering output
