@@ -11,28 +11,8 @@
 
 ## Note: Large indices files
 
-This repository uses **Git Large File Storage (LFS)** to manage large
-files such as indexes.
-
-### Important steps:
-
-1.  install **Git LFS**: If not already done, install Git LFS:
-
-    `git lfs install`
-
-2.  **Automatic download of files**: [After cloning]{.underline} the
-    repository, the large files are automatically downloaded to the
-    `whoosh_index` folder:
-
-    `git lfs pull`
-
-### Expect large files:
-
--   `whoosh_index/`: Contains the large index files. In total approx.
-    **680 MB**.
-
-**Note:** If Git LFS is not installed, you will have no search index as
-data source. Create one first.
+~~This repository uses Git Large File Storage (LFS) to manage large files such as indexes.~~ *Removed because the free bandwidth was used up.
+A demo mini-index from the “Information Retrieval” module takes the place of the index, which comprised 5 CAS.* 
 
 ------------------------------------------------------------------------
 

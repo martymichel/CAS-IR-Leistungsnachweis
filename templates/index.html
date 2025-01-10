@@ -72,7 +72,7 @@
                     <input type="hidden" name="query" value="{{ query }}">
                     <label for="results_per_page">Anzahl Resultate:</label>
                     <select name="results_per_page" id="results_per_page" onchange="this.form.submit()">
-                        {% for count in [5, 10, 20, 50] %}
+                        {% for count in [10, 20, 50] %}
                             <option value="{{ count }}" {% if request.form.get('results_per_page')|int == count %}selected{% endif %}>
                                 {{ count }}
                             </option>
